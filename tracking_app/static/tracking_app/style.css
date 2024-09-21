@@ -1,0 +1,42 @@
+.registring {
+    background: #c6caed;
+    border-radius: 30px;
+    padding: 30px;
+    text-align: center;
+}
+
+body {
+    background-color: #4f6d7a;
+    font-family: 'Helvetica', Arial, sans-serif;
+}
+
+.reg_info {
+    background: #c6caed;
+    border-radius: 30px;
+    padding: 30px;
+}
+
+.tags {
+    background-color: #4f6d7a;
+    padding: 10px;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.submit_button {
+    background-color: #43C59E;
+    border-color: #4f6d7a;
+    border-radius: 10px;
+    border-width: 5px;
+}
+
+.submit_button:hover {
+    background-color: #379f80;
+}
+
+.place_frame {
+    background-color: #c6caed;
+    border-radius: 30px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
