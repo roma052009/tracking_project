@@ -6,5 +6,8 @@ from django.shortcuts import redirect
 urlpatterns = [
     path('log_in/', views.log_in, name='login'),
     path('sign_up/', views.sign_up, name='signup'),
+    path('tasks_list/', views.tasks_list, name='tasks_list'),
+    path('tasks_from_you/', views.tasks_from_you, name='tasks_from_you'),
+    path('creating_task/', views.creating_task, name='creating_task'),
     path('', lambda request: redirect('signup')),
 ]

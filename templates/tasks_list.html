@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tasks_list</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'tracking_app/style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <a href="/tasks_from_you">Мої завдання</a>
+        <a href="/creating_task">Створити завдання</a>
+        account: {{name}}
+    </div>
+    <ul class="tasks_list"></ul>
+        {% for task in tasks %}
+            <a href='/creating_task' class="task_card">
+                <div class="task_frame"> 
+                    <h3>{{ task.name }}</h3>
+                    <p>{{ task.description }}</p>
+                    <p>Термін: {{ task.term }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

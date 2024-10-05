@@ -34,9 +34,17 @@ body {
     background-color: #379f80;
 }
 
-.place_frame {
+.task_frame {
     background-color: #c6caed;
     border-radius: 30px;
     padding: 10px;
     margin-bottom: 20px;
+}
+
+.header{
+    position: fixed;
+    background-color: #c6caed;
+    border-radius: 30px;
+    padding: 30px;
+    text-align: center;
 }
