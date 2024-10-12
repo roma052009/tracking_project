@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>changing_task</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'tracking_app/style.css' %}">
+</head>
+<body>
+    <h2 class="registring">Зміна завдання</h2>
+    <div class="reg_info">
+        <form method="POST" action="{% url 'changing_task' task_id=task.id %}">
+            {% csrf_token %}
+            <p class="tags">Назва:<input type="text" id="name" name="name" value="{{task.name}}"></p>
+            <p class="tags">Опис:<textarea id="description" name="description">{{ task.description }}</textarea></p>
+            <p class="tags">Статус:
+                <select id="stat" name="stat">
+                    <option value="not_started" {% if task.stat == "not_started" %}selected{% endif %}>Не розпочато</option>
+                    <option value="in_progress" {% if task.stat == "in_progress" %}selected{% endif %}>У процесі</option>
+                    <option value="completed" {% if task.stat == "completed" %}selected{% endif %}>Завершено</option>
+                    <option value="on_hold" {% if task.stat == "on_hold" %}selected{% endif %}>Призупинено</option>
+                </select>
+            </p>
+            <p class="tags">Для кого:
+                <select id="receiver" name="receiver">
+                    {% for user in users %}
+                        <option value="{{ user.id }}" {% if task.receiver_id.id == user.id %}selected{% endif %}>{{ user.name }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <p class="tags">Термін:<input type="date" id="term" name="term" value="{{ task.term|date:'Y-m-d' }}"></p>
+            <button type="submit" class="submit_button">Змінити завдання</button>
+        </form>
+    </div>
+</body>
+</html>

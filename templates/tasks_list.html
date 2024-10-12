@@ -8,13 +8,13 @@
 </head>
 <body>
     <div class="header">
-        <a href="/tasks_from_you">Мої завдання</a>
-        <a href="/creating_task">Створити завдання</a>
+        <button class="link_button" type="button" onclick="window.location.href='/tasks_from_you'">Мої завдання</button>
+        <button class="link_button" type="button" onclick="window.location.href='/creating_task'">Створити завдання</button>
         account: {{name}}
     </div>
     <ul class="tasks_list"></ul>
         {% for task in tasks %}
-            <a href='/creating_task' class="task_card">
+            <a href="{% url 'view_task' task.id %}" class="task_card">
                 <div class="task_frame"> 
                     <h3>{{ task.name }}</h3>
                     <p>{{ task.description }}</p>

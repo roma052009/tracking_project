@@ -46,13 +46,24 @@ def creating_task(request):
         stat = request.POST.get('stat')
         term = request.POST.get('term')
         receiver = User.objects.get(id = request.POST.get('receiver'))
-        print("Name:", name)
-        print("Description:", description)
-        print("Stat:", stat)
-        print("Term:", term)
-        print("Receiver ID:", request.POST.get('receiver'))
-        print("Giver ID:", request.session.get('user_id'))
         Task.objects.create(name=name, description=description, stat=stat, term=term, giver_id=User.objects.get(id = request.session['user_id']), receiver_id=receiver)
+        return redirect('tasks_from_you')
 
     return render(request, 'creating_task.html', {'users': User.objects.all()})
 
+def view_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    giver = task.giver_id
+    return render(request, 'view_task.html', {'task': task, 'giver': giver})
+
+def changing_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    if request.method == 'POST':
+        task.name = request.POST.get('name')
+        task.description = request.POST.get('description')
+        task.stat = request.POST.get('stat')
+        task.term = request.POST.get('term')
+        task.receiver_id = User.objects.get(id=request.POST.get('receiver'))
+        task.save()
+        return redirect('tasks_from_you')
+    return render(request, 'changing_task.html', {'task': task, 'users': User.objects.all()})

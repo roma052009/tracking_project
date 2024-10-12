@@ -8,26 +8,29 @@
 </head>
 <body>
     <h2 class="registring">Створення завдання</h2>
-    {% csrf_token %}
     <div class="reg_info">
-        <p class="tags">Назва:<input type="text" id="name" name="name"></p>
-        <p class="tags">Опис:<input type="text" id="description" name="description"></p>
-        <p class="tags">Статус:
-            <select id="stat" name="stat">
-                <option value="not_started">Не розпочато</option>
-                <option value="in_progress">У процесі</option>
-                <option value="completed">Завершено</option>
-                <option value="on_hold">Призупинено</option>
-            </select>
-        <p class="tags">Для кого:
-            <select id="receiver" name="receiver">
-                {% for user in users %}
-                    <option value={{user.id}}>{{user.name}}</option>
-                {% endfor %}
-            </select>
-
-        <p class="tags">Термін:<input type="date" id="term" name="term"></p>
-        <button type="submit" class="submit_button">Створити завдання</button>
+        <form method="POST" action="{% url 'creating_task' %}">
+            {% csrf_token %}
+            <p class="tags">Назва:<input type="text" id="name" name="name"></p>
+            <p class="tags">Опис:<input type="text" id="description" name="description"></p>
+            <p class="tags">Статус:
+                <select id="stat" name="stat">
+                    <option value="not_started">Не розпочато</option>
+                    <option value="in_progress">У процесі</option>
+                    <option value="completed">Завершено</option>
+                    <option value="on_hold">Призупинено</option>
+                </select>
+            </p>
+            <p class="tags">Для кого:
+                <select id="receiver" name="receiver">
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.name }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <p class="tags">Термін:<input type="date" id="term" name="term"></p>
+            <button type="submit" class="submit_button">Створити завдання</button>
+        </form>
     </div>
 </body>
 </html>

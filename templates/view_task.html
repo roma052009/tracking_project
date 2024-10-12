@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>View task</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'tracking_app/style.css' %}">
+</head>
+<body>
+    <h2 class="registring">Завдання від:{{giver.name}}</h2>
+    <form action="{% url 'view_task' task_id=task.id %}" method="post">
+        {% csrf_token %}
+        <div class="reg_info">
+            <p class="tags">Назва завдання:{{task.name}}</p>
+            <p class="tags">Опис:{{task.description}}</p>
+            <p class="tags">Термін:{{task.term}}</p>
+            <p class="tags">Статус:{{task.stat}}</p>
+            <button type="button" onclick="window.location.href='/tasks_list'" class="submit_button">Перейти до моїх завдань</button>
+        </div>
+    </form>
+</body>
+</html>
