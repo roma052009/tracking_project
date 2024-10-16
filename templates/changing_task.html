@@ -17,7 +17,6 @@
                 <select id="stat" name="stat">
                     <option value="not_started" {% if task.stat == "not_started" %}selected{% endif %}>Не розпочато</option>
                     <option value="in_progress" {% if task.stat == "in_progress" %}selected{% endif %}>У процесі</option>
-                    <option value="completed" {% if task.stat == "completed" %}selected{% endif %}>Завершено</option>
                     <option value="on_hold" {% if task.stat == "on_hold" %}selected{% endif %}>Призупинено</option>
                 </select>
             </p>
@@ -29,7 +28,7 @@
                 </select>
             </p>
             <p class="tags">Термін:<input type="date" id="term" name="term" value="{{ task.term|date:'Y-m-d' }}"></p>
-            <button type="submit" class="submit_button">Змінити завдання</button>
+            <button type="submit" class="submit_button" name="action" value="change">Змінити завдання</button><button type="submit" class="delete_button" name="action" value="delete">Видалити завдання</button>
         </form>
     </div>
 </body>

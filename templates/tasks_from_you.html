@@ -8,15 +8,16 @@
 </head>
 <body>
     <div class="header">
+        <h1 style="display: inline;" class="header_text">Завдання від тебе</h1>
         <button class="link_button" type="button" onclick="window.location.href='/tasks_list'">Завдання для тебе</button>
         <button class="link_button" type="button" onclick="window.location.href='/creating_task'">Створити завдання</button>
-        account: {{name}}
+        <span class="white_text">Акаунт: {{name}}</span>
     </div>
     <ul class="tasks_list"></ul>
         {% for task in tasks %}
             <a href="{% url 'changing_task' task.id %}" class="task_card">
                 <div class="task_frame">
-                    <h3>{{ task.name }}</h3>
+                    <h2>{{ task.name }}</h2>
                     <p>{{ task.description }}</p>
                     <p>Термін: {{ task.term }}</p>
                 </div>

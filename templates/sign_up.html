@@ -10,13 +10,13 @@
     <div class = "wrapper">
         <form method="post" action="/sign_up/">
             {% csrf_token %}
-            <h2 class="registring">Sign up:</h2>
+            <h2 class="registring">Зареєструватись:</h2>
             <div class="reg_info">
-                <p class="tags">Enter a name: <input type="text" name="name" value=""><br>
+                <p class="tags">Введіть ім'я: <input type="text" name="name" value=""><br>
                 {{name_text}}</p>
-                <p class="tags">Enter a password: <input type="text" name="password"></p>
-                <p class="tags">Enter your email: <input type="email" name="email"></p>
-                <p><input type="submit" value="Register" class="submit_button"><a href="/log_in">Already have an account?</a></p>
+                <p class="tags">Введіть пароль: <input type="text" name="password"></p>
+                <p class="tags">Введіть вашу електронну пошту: <input type="email" name="email"></p>
+                <p><input type="submit" value="Зареєструватись" class="submit_button"><a href="/log_in">Вже є акаунт?</a></p>
             </div>
         </form>
     </div>

@@ -22,13 +22,16 @@ def log_in(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         password = request.POST.get('password')
-        user = User.objects.get(name=name)
-
-        if password == user.password:
-            request.session['user_id'] = user.id
-            return redirect('tasks_list')
-        else:
-            return render(request, 'log_in.html', {'password_text': "Пароль невірний"})
+        try:
+            user = User.objects.get(name=name)
+            if password == user.password:
+                request.session['user_id'] = user.id
+                return redirect('tasks_list')
+            else:
+                return render(request, 'log_in.html', {'password_text': "Пароль або ім'я невірні"})
+        except:
+            return render(request, 'log_in.html', {'password_text': "Пароль або ім'я невірні"})
+        
     return render(request, 'log_in.html', {'password_text': ""})
 
 def tasks_list(request):
@@ -58,12 +61,17 @@ def view_task(request, task_id):
 
 def changing_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
-    if request.method == 'POST':
-        task.name = request.POST.get('name')
-        task.description = request.POST.get('description')
-        task.stat = request.POST.get('stat')
-        task.term = request.POST.get('term')
-        task.receiver_id = User.objects.get(id=request.POST.get('receiver'))
-        task.save()
+    action = request.POST.get('action')
+    if action == 'change':
+        if request.method == 'POST':
+            task.name = request.POST.get('name')
+            task.description = request.POST.get('description')
+            task.stat = request.POST.get('stat')
+            task.term = request.POST.get('term')
+            task.receiver_id = User.objects.get(id=request.POST.get('receiver'))
+            task.save()
+            return redirect('tasks_from_you')
+    elif action == 'delete':
+        task.delete()
         return redirect('tasks_from_you')
     return render(request, 'changing_task.html', {'task': task, 'users': User.objects.all()})

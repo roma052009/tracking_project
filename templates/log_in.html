@@ -10,12 +10,11 @@
     <div class = "wrapper">
         <form method="post" action="/log_in/">
         {% csrf_token %}
-        <h2 class="registring">Log in: </h2>
+        <h2 class="registring">Увійти: </h2>
         <div class="reg_info">
-            <p class="tags">Enter a name: <input type = "text" name = "name"><br>
-            {{password_text}}</p>
-            <p class="tags">Enter a password: <input type = "text" name = "password", value=""></p>
-            <p><input type="submit" value="Enter" class="submit_button"><a href = "/">Don't have an account?</a></p>
+            <p class="tags">Введіть ім'я: <input type = "text" name = "name"></p>
+            <p class="tags">Введіть пароль: <input type = "text" name = "password", value=""><br>{{password_text}}</p>
+            <p><input type="submit" value="Увійти" class="submit_button"><a href = "/">Не маєте акаунт?</a></p>
         </div>
         </form>
     </div>

@@ -12,12 +12,11 @@
         <form method="POST" action="{% url 'creating_task' %}">
             {% csrf_token %}
             <p class="tags">Назва:<input type="text" id="name" name="name"></p>
-            <p class="tags">Опис:<input type="text" id="description" name="description"></p>
+            <p class="tags">Опис:<textarea type="text" id="description" name="description"></textarea></p>
             <p class="tags">Статус:
                 <select id="stat" name="stat">
                     <option value="not_started">Не розпочато</option>
                     <option value="in_progress">У процесі</option>
-                    <option value="completed">Завершено</option>
                     <option value="on_hold">Призупинено</option>
                 </select>
             </p>
