@@ -15,3 +15,9 @@ class Task(models.Model):
     term = models.DateField()
     giver_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks_given", default=1)
     receiver_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks_received", default=1)
+
+class Comment(models.Model):
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)

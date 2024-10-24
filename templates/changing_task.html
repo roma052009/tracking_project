@@ -31,5 +31,17 @@
             <button type="submit" class="submit_button" name="action" value="change">Змінити завдання</button><button type="submit" class="delete_button" name="action" value="delete">Видалити завдання</button>
         </form>
     </div>
+    <div class="comments_list">
+        <h2 align="center" class="white_text">Коменти:</h2>
+        <div class="comment_making"><textarea type="text" id="comment_content" name="comment_content"></textarea><button type="submit" name="action" value="post_comment">→</button></div>
+        {% if comments  %}
+        {% for comment in comments %}
+            <div class="task_frame"> 
+            <h3>{{ comment.user }}</h3>
+            <p>{{ comment.content|linebreaksbr }}</p>
+            </div>
+        {% endfor %}
+        {% endif %}
+    </div>
 </body>
 </html>

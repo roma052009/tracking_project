@@ -13,12 +13,30 @@
         <button class="link_button" type="button" onclick="window.location.href='/creating_task'">Створити завдання</button>
         <span class="white_text">Акаунт: {{name}}</span>
     </div>
+    <div class="panel">
+        <form method="GET" action="{% url 'tasks_from_you' %}">
+            <label for="sort_by">Сортувати за:</label>
+            <select name="sort_by" id="sort_by" onchange="this.form.submit()">
+                <option value="none" {% if current_sort == 'none' %}selected{% endif %}>--</option>
+                <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Назва</option>
+                <option value="term" {% if current_sort == 'term' %}selected{% endif %}>Термін</option>
+            </select>
+            
+            <label for="status_filter">Фільтрувати за статусом:</label>
+            <select name="status_filter" id="status_filter" onchange="this.form.submit()">
+                <option value="none"{% if current_status_filter == 'none' %}selected{% endif %}>--</option>
+                <option value="in_progress" {% if current_status_filter == 'in_progress' %}selected{% endif %}>В процесі</option>
+                <option value="not_started" {% if current_status_filter == 'not_started' %}selected{% endif %}>Не розпочато</option>
+                <option value="on_hold" {% if current_status_filter == 'on_hold' %}selected{% endif %}>Призупинено</option>
+            </select>
+        </form>        
+    </div>
     <ul class="tasks_list"></ul>
         {% for task in tasks %}
             <a href="{% url 'changing_task' task.id %}" class="task_card">
                 <div class="task_frame">
                     <h2>{{ task.name }}</h2>
-                    <p>{{ task.description }}</p>
+                    <p>{{ task.description|slice:":20"|linebreaksbr }}{% if task.description|length > 20 %}...{% endif %}</p>
                     <p>Термін: {{ task.term }}</p>
                 </div>
             </a>

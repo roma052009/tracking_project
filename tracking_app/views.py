@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from tracking_app.models import User, Task
+from tracking_app.models import User, Task, Comment
 from django.db.models import Q
 from datetime import datetime
 
@@ -35,12 +35,24 @@ def log_in(request):
     return render(request, 'log_in.html', {'password_text': ""})
 
 def tasks_list(request):
+    sort_by = request.GET.get('sort_by', 'none')
+    status_filter = request.GET.get('status_filter', 'none')
     tasks = Task.objects.filter(receiver_id = request.session['user_id'])
-    return render(request, 'tasks_list.html', {'tasks': tasks, 'name': User.objects.get(id=request.session['user_id']).name})
+    if status_filter != "none":
+        tasks = tasks.filter(stat=status_filter)
+    if sort_by != "none":
+        tasks = tasks.order_by(sort_by)
+    return render(request, 'tasks_list.html', {'tasks': tasks, 'name': User.objects.get(id=request.session['user_id']).name, 'current_sort': sort_by, 'current_status_filter': status_filter})
 
 def tasks_from_you(request):
+    sort_by = request.GET.get('sort_by', 'none')
+    status_filter = request.GET.get('status_filter', 'none')
     tasks = Task.objects.filter(giver_id = request.session['user_id'])
-    return render(request, 'tasks_from_you.html', {'tasks': tasks, 'name': User.objects.get(id=request.session['user_id']).name})
+    if status_filter != "none":
+        tasks = tasks.filter(stat=status_filter)
+    if sort_by != "none":
+        tasks = tasks.order_by(sort_by)
+    return render(request, 'tasks_from_you.html', {'tasks': tasks, 'name': User.objects.get(id=request.session['user_id']).name, 'current_sort': sort_by, 'current_status_filter': status_filter})
 
 def creating_task(request):
     if request.method == 'POST':
@@ -57,13 +69,33 @@ def creating_task(request):
 def view_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     giver = task.giver_id
-    return render(request, 'view_task.html', {'task': task, 'giver': giver})
+    comments = Comment.objects.filter(task = task)
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'post_comment':
+            comment_content = request.POST.get('comment_content')
+            if comment_content:
+                Comment.objects.create(task = task, content = comment_content, user = User.objects.get(id = request.session['user_id']))
+            comments = Comment.objects.filter(task=task)
+            return redirect('view_task', task_id=task_id)
+
+    return render(request, 'view_task.html', {'task': task, 'giver': giver, 'comments': comments})
 
 def changing_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
-    action = request.POST.get('action')
-    if action == 'change':
-        if request.method == 'POST':
+    comments = Comment.objects.filter(task = task)
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'post_comment':
+            comment_content = request.POST.get('comment_content')
+            if comment_content:
+                Comment.objects.create(task = task, content = comment_content, user = User.objects.get(id = request.session['user_id']))
+            comments = Comment.objects.filter(task=task)
+            return redirect('view_task', task_id=task_id)
+
+        elif action == 'change':
             task.name = request.POST.get('name')
             task.description = request.POST.get('description')
             task.stat = request.POST.get('stat')
@@ -71,7 +103,7 @@ def changing_task(request, task_id):
             task.receiver_id = User.objects.get(id=request.POST.get('receiver'))
             task.save()
             return redirect('tasks_from_you')
-    elif action == 'delete':
-        task.delete()
-        return redirect('tasks_from_you')
-    return render(request, 'changing_task.html', {'task': task, 'users': User.objects.all()})
+        elif action == 'delete':
+            task.delete()
+            return redirect('tasks_from_you')
+    return render(request, 'changing_task.html', {'task': task, 'users': User.objects.all(), 'comments': comments})

@@ -11,11 +11,23 @@
     <form action="{% url 'view_task' task_id=task.id %}" method="post">
         {% csrf_token %}
         <div class="reg_info">
-            <p class="tags">Назва завдання:{{task.name}}</p>
-            <p class="tags">Опис:{{task.description}}</p>
-            <p class="tags">Термін:{{task.term}}</p>
-            <p class="tags">Статус:{{task.stat}}</p>
+            <p class="tags"><b>Назва завдання:</b>{{task.name}}</p>
+            <p class="tags"><b>Опис:</b>{{ task.description|linebreaksbr }}</p>
+            <p class="tags"><b>Термін:</b>{{task.term}}</p>
+            <p class="tags"><b>Статус:</b>{{task.stat}}</p>
             <button type="button" onclick="window.location.href='/tasks_list'" class="submit_button">Перейти до моїх завдань</button>
+        </div>
+        <div class="comments_list">
+            <h2 align="center" class="white_text">Коменти:</h2>
+            <div class="comment_making"><textarea type="text" id="comment_content" name="comment_content"></textarea><button type="submit" name="action" value="post_comment">→</button></div>
+            {% if comments  %}
+            {% for comment in comments %}
+                <div class="task_frame"> 
+                <h3>{{ comment.user }}</h3>
+                <p>{{ comment.content|linebreaksbr }}</p>
+                </div>
+            {% endfor %}
+            {% endif %}
         </div>
     </form>
 </body>
