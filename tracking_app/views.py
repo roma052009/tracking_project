@@ -38,6 +38,10 @@ def tasks_list(request):
     sort_by = request.GET.get('sort_by', 'none')
     status_filter = request.GET.get('status_filter', 'none')
     tasks = Task.objects.filter(receiver_id = request.session['user_id'])
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'log_out':
+            return redirect('signup')
     if status_filter != "none":
         tasks = tasks.filter(stat=status_filter)
     if sort_by != "none":
@@ -48,6 +52,10 @@ def tasks_from_you(request):
     sort_by = request.GET.get('sort_by', 'none')
     status_filter = request.GET.get('status_filter', 'none')
     tasks = Task.objects.filter(giver_id = request.session['user_id'])
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'log_out':
+            return redirect('signup')
     if status_filter != "none":
         tasks = tasks.filter(stat=status_filter)
     if sort_by != "none":

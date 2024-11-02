@@ -12,6 +12,10 @@
         <button class="link_button" type="button" onclick="window.location.href='/tasks_from_you'">Завдання від тебе</button>
         <button class="link_button" type="button" onclick="window.location.href='/creating_task'">Створити завдання</button>
         <span class="white_text">Акаунт: {{name}}</span>
+        <form method="POST" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="log_out_button" name="action" value="log_out">Вийти з акаунту</button>
+        </form>    
     </div>
     <div class="panel">
         <form method="GET" action="{% url 'tasks_list' %}">
